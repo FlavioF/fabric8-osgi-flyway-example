@@ -24,6 +24,7 @@ import com.github.pires.example.dal.UserService;
 import com.github.pires.example.dal.entities.User;
 import com.github.pires.example.dal.impl.daos.UserEntityDao;
 import com.github.pires.example.dal.impl.entities.UserEntity;
+import com.github.pires.example.dal.entities.JSON;
 
 /**
  * Implementation of {@link UserService} OSGi service.
@@ -31,7 +32,6 @@ import com.github.pires.example.dal.impl.entities.UserEntity;
 public class UserServiceImpl implements UserService {
 
   private static final Logger log = LoggerFactory.getLogger(UserService.class);
-
   private UserEntityDao userDao;
 
   public UserServiceImpl() {
@@ -42,9 +42,44 @@ public class UserServiceImpl implements UserService {
     if (user != null) {
       UserEntity newEntity = new UserEntity();
       newEntity.setName(user.getName());
+      newEntity.setProperties(user.getProperties());
       userDao.persist(newEntity);
     }
+
   }
+
+//  private void createTestJSONUser() {
+//    String propertiesSchema =
+//            "{"
+//            + "\"num1\":{"
+//            + "\"type\":number, "
+//            + "\"value\":0, "
+//            + "\"mandatory\":false}, "
+//            + "\"string1\":{"
+//            + "\"type\":string, "
+//            + "\"value\":\"teste\", "
+//            + "\"mandatory\":false}"
+//            + "}";
+//
+//    String propertiesValue =
+//            "{"
+//            + "\"num1\":{"
+//            + "\"type\":number, "
+//            + "\"value\":111, "
+//            + "\"foo\":111, "
+//            + "\"mandatory\":false}, "
+//            + "\"num2\":{"
+//            + "\"type\":number, "
+//            + "\"value\":222, "
+//            + "\"mandatory\":false}"
+//            + "}";
+//
+//    JSON j = new JSON(propertiesSchema, propertiesValue);
+//    UserEntity newEntity = new UserEntity();
+//    newEntity.setName("fferreira");
+//    newEntity.setProperties(j);
+//    userDao.persist(newEntity);
+//  }
 
   public List<User> findAll() {
     log.info("Retrieving all persisted users..");
@@ -53,10 +88,11 @@ public class UserServiceImpl implements UserService {
       List<UserEntity> entities = userDao.findAll();
       List<User> users = new ArrayList<>(entities.size());
       for (UserEntity entity : entities) {
-        log.info("Found user with name {}", entity.getName());
+        log.info("Found user ", entity.toString());
         User user = new User();
         user.setName(entity.getName());
-        users.add(user);
+        user.setProperties(entity.getProperties());
+        log.info(user.getProperties().toString());
       }
       return users;
     }
@@ -87,5 +123,4 @@ public class UserServiceImpl implements UserService {
   void deactivate() {
     log.info("Deactivating Billing service.");
   }
-
 }

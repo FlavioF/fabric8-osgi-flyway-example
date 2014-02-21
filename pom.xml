@@ -33,6 +33,7 @@
     <module>dal.impl</module>
     <module>datasource-hsqldb</module>
     <module>rest</module>
+    <module>datasource-postgresdb</module>
   </modules>
 
   <dependencyManagement>
