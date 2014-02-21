@@ -22,8 +22,6 @@ import javax.persistence.Version;
 import com.github.pires.example.dal.entities.JSON;
 
 @Entity
-@org.hibernate.annotations.TypeDefs({
-  @org.hibernate.annotations.TypeDef(name = "JSON", defaultForType =  com.github.pires.example.dal.entities.JSON.class, typeClass = com.github.pires.example.dal.impl.json.JSONUserType.class)})
 public class UserEntity {
 
   @Id
@@ -73,7 +71,7 @@ public class UserEntity {
     return "Person{"
             + "id=" + id
             + ", name='" + name + '\''
-            + ", properties=" + properties.toString()
+            + ", properties=" + properties.getValue().toString()
             + '}';
   }
 }

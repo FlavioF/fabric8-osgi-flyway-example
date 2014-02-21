@@ -25,6 +25,7 @@ import com.github.pires.example.dal.entities.User;
 import com.github.pires.example.dal.impl.daos.UserEntityDao;
 import com.github.pires.example.dal.impl.entities.UserEntity;
 import com.github.pires.example.dal.entities.JSON;
+import com.github.pires.example.dal.entities.RestJSON;
 
 /**
  * Implementation of {@link UserService} OSGi service.
@@ -33,6 +34,17 @@ public class UserServiceImpl implements UserService {
 
   private static final Logger log = LoggerFactory.getLogger(UserService.class);
   private UserEntityDao userDao;
+  private final String PROPERTIES_SCHEMA = 
+            "{"
+            + "\"num1\":{"
+            + "\"type\":number, "
+            + "\"value\":0, "
+            + "\"mandatory\":false}, "
+            + "\"string1\":{"
+            + "\"type\":string, "
+            + "\"value\":\"teste\", "
+            + "\"mandatory\":false}"
+            + "}";
 
   public UserServiceImpl() {
   }
@@ -42,58 +54,26 @@ public class UserServiceImpl implements UserService {
     if (user != null) {
       UserEntity newEntity = new UserEntity();
       newEntity.setName(user.getName());
-      newEntity.setProperties(user.getProperties());
+      newEntity.setProperties(new JSON(PROPERTIES_SCHEMA,user.getProperties().getValue()));
       userDao.persist(newEntity);
     }
 
   }
-
-//  private void createTestJSONUser() {
-//    String propertiesSchema =
-//            "{"
-//            + "\"num1\":{"
-//            + "\"type\":number, "
-//            + "\"value\":0, "
-//            + "\"mandatory\":false}, "
-//            + "\"string1\":{"
-//            + "\"type\":string, "
-//            + "\"value\":\"teste\", "
-//            + "\"mandatory\":false}"
-//            + "}";
-//
-//    String propertiesValue =
-//            "{"
-//            + "\"num1\":{"
-//            + "\"type\":number, "
-//            + "\"value\":111, "
-//            + "\"foo\":111, "
-//            + "\"mandatory\":false}, "
-//            + "\"num2\":{"
-//            + "\"type\":number, "
-//            + "\"value\":222, "
-//            + "\"mandatory\":false}"
-//            + "}";
-//
-//    JSON j = new JSON(propertiesSchema, propertiesValue);
-//    UserEntity newEntity = new UserEntity();
-//    newEntity.setName("fferreira");
-//    newEntity.setProperties(j);
-//    userDao.persist(newEntity);
-//  }
 
   public List<User> findAll() {
     log.info("Retrieving all persisted users..");
     final int totalUsers = userDao.count();
     if (totalUsers > 0) {
       List<UserEntity> entities = userDao.findAll();
-      List<User> users = new ArrayList<>(entities.size());
+      List<User> users = new ArrayList<User>(entities.size());
       for (UserEntity entity : entities) {
-        log.info("Found user ", entity.toString());
+        log.info("Found user {} ", entity.toString());
         User user = new User();
         user.setName(entity.getName());
-        user.setProperties(entity.getProperties());
-        log.info(user.getProperties().toString());
+        user.setProperties(new RestJSON(entity.getProperties()));
+        users.add(user);
       }
+      log.info("Found {} users", users.size());
       return users;
     }
     return Collections.emptyList();

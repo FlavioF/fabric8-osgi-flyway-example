@@ -88,12 +88,9 @@ Create new user
 PUT /user
 
 Example JSON:
-
 {
-    "name":"fferreira",
-    "properties":{"value":"{\"string1\":{\"mandatory\":false,\"value\":\"teste\",\"type\":\"string\"},\"num1\":{\"mandatory\":false,\"value\":123,\"type\":\"number\"}}"}
+  "name":"Pires"
 }
-
 ```
 
 Count users

@@ -10,36 +10,8 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.github.pires.example.dal.entities;
+@org.hibernate.annotations.TypeDefs({
+  @org.hibernate.annotations.TypeDef(name = "JSON", defaultForType =  com.github.pires.example.dal.entities.JSON.class, typeClass = com.github.pires.example.dal.impl.json.JSONUserType.class)})
+package com.github.pires.example.dal.impl.entities;
 
-public class User {
 
-  private String name;
-  private RestJSON properties;
-
-  public User() {
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
- 
-  /**
-   * @return the properties
-   */
-  public RestJSON getProperties() {
-    return properties;
-  }
-
-  /**
-   * @param properties the properties to set
-   */
-  public void setProperties(RestJSON properties) {
-    this.properties = properties;
-  }
-}

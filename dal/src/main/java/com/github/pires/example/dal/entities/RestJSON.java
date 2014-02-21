@@ -10,36 +10,42 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.github.pires.example.dal.entities;
 
-public class User {
+/**
+ *
+ * @author fferreira
+ */
+public class RestJSON {
 
-  private String name;
-  private RestJSON properties;
+  //region members
+  private String value;
 
-  public User() {
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
- 
   /**
-   * @return the properties
+   * @return the value
    */
-  public RestJSON getProperties() {
-    return properties;
+  public String getValue() {
+    return value;
   }
 
   /**
-   * @param properties the properties to set
+   * @param value the value to set
    */
-  public void setProperties(RestJSON properties) {
-    this.properties = properties;
+  public void setValue(String value) {
+    this.value = value;
   }
+
+  public RestJSON(JSON j) {
+    value = j.getValue().toString();
+  }
+
+  public RestJSON(String value) {
+    this.value = value;
+  }
+  
+  
 }
