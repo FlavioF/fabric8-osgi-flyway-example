@@ -1,7 +1,7 @@
-fabric8-persistence-demo
-======================
+fabric8-osgi-flyway-example
+===========================
 
-Fabric8 + E-OSGi managed persistence (Aries + Hibernate) + REST service demonstration code + Flyway database migration integration.
+Fabric8 + Felix OSGi managed persistence (Aries + Hibernate) + REST service demonstration code + Flyway database migration integration.
 
 # Pre-requisites
 
