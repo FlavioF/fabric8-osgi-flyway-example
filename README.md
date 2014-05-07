@@ -1,7 +1,7 @@
 fabric8-persistence-demo
 ======================
 
-Fabric8 + E-OSGi managed persistence (Aries + Hibernate) + REST service demonstration code.
+Fabric8 + E-OSGi managed persistence (Aries + Hibernate) + REST service demonstration code + Flyway database migration integration.
 
 # Pre-requisites
 
