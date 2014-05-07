@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>fabric8-hibernate</artifactId>
+        <groupId>com.github.pires.example</groupId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.github.pires.example</groupId>
+    <artifactId>fabric8-osgi-flyway</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <packaging>bundle</packaging>
+
+    <name>Fabric8 Flyway Fragment OSGi Bundle</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.3-1101-jdbc41</version>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin> <!-- Flyway Fragment -->
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Fragment-Host>org.flywaydb.core</Fragment-Host>
+                        <Export-Package>
+                            db.migration2,
+                            com.github.pires.example.fabric8.osgi.flyway.db.migration
+                        </Export-Package>
+                        <Import-Package>
+                            org.osgi.framework,
+                            org.flywaydb.core.*,
+                            com.github.pires.example.fabric8.osgi.flyway.*,
+                            org.postgresql,
+                            org.slf4j.*
+                        </Import-Package>
+                        
+                    </instructions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>bundle-manifest</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles> <!-- Flyway Migration Using Maven -->
+        <profile>
+            <id>migrate</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.flywaydb</groupId>
+                        <artifactId>flyway-maven-plugin</artifactId>
+                        <version>3.0</version>
+               
+                        <configuration>
+                            <url>jdbc:postgresql://localhost:5432/bedbtest</url>
+                            <user>postgres</user>
+                            <password>bikeemotion</password>
+                            <locations>
+                                <location>db/migration2</location>
+                            </locations>
+                            <initVersion>0.0.0</initVersion>
+                            <initDescription>Initial Step</initDescription>
+                            <initOnMigrate>true</initOnMigrate>
+                        </configuration>
+                        <!-- mvn -Dflyway.user=postgres -Dflyway.password=bikeemotion -Dflyway.url=jdbc:postgresql://localhost:5432/beusersdb-->
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.postgresql</groupId>
+                                <artifactId>postgresql</artifactId>
+                                <version>9.3-1101-jdbc41</version>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>migrate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+           
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    <properties>
+        <osgi.import.pkg>
+            javassist.util.proxy,
+            org.slf4j,
+            org.osgi.framework,
+            org.flywaydb.core,
+            *
+        </osgi.import.pkg>
+        <osgi.export.pkg>db.migration2.*</osgi.export.pkg>
+        <osgi.private.pkg>com.github.pires.example.fabric8.osgi.flyway</osgi.private.pkg>
+        <osgi.meta.persistence>META-INF/persistence.xml</osgi.meta.persistence>
+        <osgi.include.resource>src/main/resources/db/migrations=db/migration</osgi.include.resource>
+    </properties>
+
+</project>

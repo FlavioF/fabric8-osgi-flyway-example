@@ -59,6 +59,7 @@
       org.hibernate.proxy,
       javassist.util.proxy,
       com.github.pires.example.dal,
+      javax.sql,
       *
     </osgi.import.pkg>
     <osgi.export.pkg></osgi.export.pkg>

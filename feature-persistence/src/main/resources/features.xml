@@ -27,7 +27,7 @@
      
     <!-- JDBC Driver -->
     <bundle>mvn:org.hsqldb/hsqldb/2.3.0</bundle>
-    <bundle>wrap:mvn:postgresql/postgresql/9.1-901.jdbc4</bundle>
+    <bundle>wrap:mvn:org.postgresql/postgresql/9.3-1101-jdbc41</bundle>
     
     <!-- Hibernate -->
     <bundle>mvn:com.fasterxml/classmate/0.9.0</bundle>

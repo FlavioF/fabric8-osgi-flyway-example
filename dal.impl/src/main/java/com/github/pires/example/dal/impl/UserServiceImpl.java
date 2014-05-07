@@ -34,17 +34,10 @@ public class UserServiceImpl implements UserService {
 
   private static final Logger log = LoggerFactory.getLogger(UserService.class);
   private UserEntityDao userDao;
-  private final String PROPERTIES_SCHEMA = 
-            "{"
-            + "\"num1\":{"
-            + "\"type\":number, "
-            + "\"value\":0, "
-            + "\"mandatory\":false}, "
-            + "\"string1\":{"
-            + "\"type\":string, "
-            + "\"value\":\"teste\", "
-            + "\"mandatory\":false}"
-            + "}";
+  private final String PROPERTIES_SCHEMA = "{" + "\"num1\":{"
+      + "\"type\":number, " + "\"value\":0, " + "\"mandatory\":false}, "
+      + "\"string1\":{" + "\"type\":string, " + "\"value\":\"teste\", "
+      + "\"mandatory\":false}" + "}";
 
   public UserServiceImpl() {
   }
@@ -54,7 +47,8 @@ public class UserServiceImpl implements UserService {
     if (user != null) {
       UserEntity newEntity = new UserEntity();
       newEntity.setName(user.getName());
-      newEntity.setProperties(new JSON(PROPERTIES_SCHEMA,user.getProperties().getValue()));
+      newEntity.setProperties(new JSON(PROPERTIES_SCHEMA, user.getProperties()
+          .getValue()));
       userDao.persist(newEntity);
     }
 
@@ -65,12 +59,13 @@ public class UserServiceImpl implements UserService {
     final int totalUsers = userDao.count();
     if (totalUsers > 0) {
       List<UserEntity> entities = userDao.findAll();
-      List<User> users = new ArrayList<User>(entities.size());
+      List<User> users = new ArrayList<>(entities.size());
       for (UserEntity entity : entities) {
-        log.info("Found user {} ", entity.toString());
+        // log.info("Found user {} ", entity.toString());
         User user = new User();
         user.setName(entity.getName());
-        user.setProperties(new RestJSON(entity.getProperties()));
+        user.setProperties(entity.getProperties() != null ? new RestJSON(entity
+            .getProperties()) : null);
         users.add(user);
       }
       log.info("Found {} users", users.size());
@@ -102,5 +97,9 @@ public class UserServiceImpl implements UserService {
 
   void deactivate() {
     log.info("Deactivating Billing service.");
+  }
+
+  public void startUp() {
+    log.info("Starting Billing service.");
   }
 }

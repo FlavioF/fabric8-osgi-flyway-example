@@ -62,19 +62,21 @@ fabric:create --clean --wait-for-provisioning
 
 ## Define our own profile
 ```
-profile-create --parents example-quickstarts-rest persistence-example
-profile-edit --repositories mvn:com.github.pires.example/feature-persistence/0.1-SNAPSHOT/xml/features persistence-example
-profile-edit --features persistence-aries-hibernate persistence-example
-profile-edit --bundles mvn:com.github.pires.example/datasource-hsqldb/0.1-SNAPSHOT persistence-example
-profile-edit --bundles mvn:com.github.pires.example/dal/0.1-SNAPSHOT persistence-example
-profile-edit --bundles mvn:com.github.pires.example/dal-impl/0.1-SNAPSHOT persistence-example
-profile-edit --bundles mvn:com.github.pires.example/rest/0.1-SNAPSHOT persistence-example
+profile-create --parents example-quickstarts-rest persistence-flyway-example
+profile-edit --repositories mvn:com.github.pires.example/feature-persistence/0.1-SNAPSHOT/xml/features persistence-flyway-example
+profile-edit --features persistence-aries-hibernate persistence-flyway-example
+profile-edit --bundles mvn:com.github.pires.example/datasource-postgresdb/0.1-SNAPSHOT persistence-flyway-example
+profile-edit --bundles mvn:com.github.pires.example/dal/0.1-SNAPSHOT persistence-flyway-example
+profile-edit --bundles mvn:com.github.pires.example/dal-impl/0.1-SNAPSHOT persistence-flyway-example
+profile-edit --bundles mvn:com.github.pires.example/rest/0.1-SNAPSHOT persistence-flyway-example
+profile-edit --bundles mvn:com.github.pires.example/fabric8-osgi-flyway/0.1-SNAPSHOT persistence-flyway-example
+profile-edit --bundles mvn:org.flywaydb/flyway-core/3.0  persistence-flyway-example
 ```
 
 ## Create and run new container with newly created profile
 
 ```
-container-create-child --profile persistence-example root test
+container-create-child --profile persistence-flyway-example root test
 ```
 
 # Testing

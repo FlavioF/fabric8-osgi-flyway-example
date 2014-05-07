@@ -34,7 +34,7 @@
 
   <bean
     id="userService"
-    class="com.github.pires.example.dal.impl.UserServiceImpl">
+    class="com.github.pires.example.dal.impl.UserServiceImpl" init-method="startUp" >
     <property
       name="userDao"
       ref="userEntityDao" />

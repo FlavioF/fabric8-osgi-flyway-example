@@ -28,10 +28,11 @@
     id="demoService"
     address="/demo">
     <jaxrs:serviceBeans>
-      <ref component-id="userManager" />
+      <ref component-id="userManager" />F
     </jaxrs:serviceBeans>
     <jaxrs:features>
-      <bean class="org.apache.cxf.jaxrs.swagger.SwaggerFeature" />
+      <bean class="io.fabric8.cxf.endpoint.SwaggerFeature"/>
+      <bean class="io.fabric8.cxf.endpoint.ManagedApiFeature"/>
     </jaxrs:features>
     <jaxrs:providers>
       <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
